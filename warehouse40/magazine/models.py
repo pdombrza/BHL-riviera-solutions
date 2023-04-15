@@ -8,10 +8,10 @@ class WarehouseZone(models.Model):
 
 class Product(models.Model):
     class LoadPriority(Enum):
-        A = "AA"
-        B = "BB"
-        C = "CC"
-        D = "DD"
+        A = ("AA",)
+        B = ("BB",)
+        C = ("CC",)
+        D = ("DD",)
 
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
@@ -36,9 +36,9 @@ class Order(models.Model):
     estimated_time_seconds = models.PositiveIntegerField(null=True)
 
     class OrderStatus(Enum):
-        FINISHED = "realized"
-        TO_REALIZE = "to_realize"
-        IN_PROGRESS = "in_progress"
+        FINISHED = ("realized",)
+        TO_REALIZE = ("to_realize",)
+        IN_PROGRESS = ("in_progress",)
 
     order_status = models.CharField(
         max_length=11, default=OrderStatus.TO_REALIZE, choices=OrderStatus
@@ -48,7 +48,5 @@ class Order(models.Model):
 
 
 class ProductOrder(models.Model):
-    product_id = models.ForeignKey(Worker, verbose_name=(""), on_delete=models.CASCADE)
-    order_id = worker_id = models.ForeignKey(
-        Worker, verbose_name=(""), on_delete=models.CASCADE
-    )
+    product_id = models.ForeignKey(Product, verbose_name=(""), on_delete=models.CASCADE)
+    order_id = models.ForeignKey(Order, verbose_name=(""), on_delete=models.CASCADE)
