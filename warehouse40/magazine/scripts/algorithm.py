@@ -1,4 +1,4 @@
-from itertools import permutations
+from itertools import permutations, product
 from typing import Dict, Tuple, List
 
 
@@ -20,6 +20,12 @@ MAP = {
     ("F", "H"): 2,
     ("G", "H"): 1,
 }
+
+ORDER = ["A", "G", "C", "D"]
+
+prioA = ["a", "c", "h"]
+prioB = ["g", "h", "c", "d"]
+prioC = ["b", "e"]
 
 
 def get_individual_zone_names(zone_map: Dict[Tuple[str, str], int | float]):
