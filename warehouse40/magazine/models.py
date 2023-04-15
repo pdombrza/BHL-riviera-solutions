@@ -7,11 +7,13 @@ class WarehouseZone(models.Model):
 
 
 class Product(models.Model):
-    class LoadPriority(Enum):
-        A = ("AA",)
-        B = ("BB",)
-        C = ("CC",)
-        D = ("DD",)
+    LOAD_PRIORITY = [
+        ("AA", "AA"),
+        ("BB", "BB"),
+        ("BB", "CC"),
+        ("CC", "DD"),
+        ("DD", "EE"),
+    ]
 
     name = models.CharField(max_length=255)
     quantity = models.IntegerField()
@@ -19,9 +21,7 @@ class Product(models.Model):
     zone_id = models.ForeignKey(
         WarehouseZone, verbose_name=(""), on_delete=models.CASCADE
     )
-    load_priority = models.CharField(
-        max_length=2, choices=LoadPriority, default=LoadPriority.A
-    )
+    load_priority = models.CharField(max_length=2, choices=LOAD_PRIORITY)
 
 
 class Worker(models.Model):
@@ -35,14 +35,13 @@ class Order(models.Model):
     date_of_order = models.DateField(null=True)
     estimated_time_seconds = models.PositiveIntegerField(null=True)
 
-    class OrderStatus(Enum):
-        FINISHED = ("realized",)
-        TO_REALIZE = ("to_realize",)
-        IN_PROGRESS = ("in_progress",)
+    ORDER_STATUS = [
+        ("FINISHED", "realized"),
+        ("TO_REALIZE", "to_realize"),
+        ("IN_PROGRESS", "in_progress"),
+    ]
 
-    order_status = models.CharField(
-        max_length=11, default=OrderStatus.TO_REALIZE, choices=OrderStatus
-    )
+    order_status = models.CharField(max_length=11, choices=ORDER_STATUS)
     pick_up_time = models.DateTimeField(null=True)
     worker_id = models.ForeignKey(Worker, verbose_name=(""), on_delete=models.CASCADE)
 
